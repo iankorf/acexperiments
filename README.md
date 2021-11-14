@@ -5,48 +5,23 @@ Experiments in Assetto Corsa
 
 ## Installation ##
 
-+ You need Assetto Corsa
-+ You need to install quickbms to pack and unpack the .acd files. https://aluigi.altervista.org/quickbms.htm
+All of the builds are versions of the NA Miata that comes with Assetto Corsa, so you will need a standard installation of Assetto Corsa. You will also need Content Manager, which most Assetto Corsa owners already have because it makes a lot of customization easier.
 
-## The Builds ##
+## Build 1 ##
 
-+ Building a stripped down version of the Miata as the RWD platform
+The `build.py` script creates 48 vehicles, totalling about 6 GB.
 
+(1) Unpack the `data.acd` file of the `ks_mazda_miata` into a `data` directory using Content Manager.
 
-Use a json file to describe what you want to do?
+(2) Use something like the command below to build the various experimental vehicles. I did my file wrangling using Cygwin on Windows, which is why the path below is what it is. YMMV.
 
-Manufactuer
-Model
-Power
+	python3 builder.py /cygdrive/c/Program\ Files\ \(x86\)/Steam/steamapps/common/assettocorsa ks_mazda_miata ace
 
+This will produce a bunch of FWD Miatas and some RWD variants with differing levels of power and grip. 
 
-## quickbms ##
+(3) Copy or move all of the directories you just made to `cars` directory in AC.
 
-quickbms.exe z:\assetto_corsa_acd.bms Z:\lotus_exos_125_s1\data.acd z:\data
+(4) Go back to Content Manager to pack the `data` directory into a `data.acd` file.
 
-quickbms.exe z:\assetto_corsa_acd_rebuild.bms Z:\lotus_exos_125_s1\data.acd z:\data
+(5) Still in Content Manager, replace the sounds with the original NA Miata (or something else if you prefer).
 
-## RWD Cars ##
-
-Miata
-86
-E30
-
-## FWD Cars ##
-
-Lancia Fulvia - too old
-Opel Ascona / Chevy Monza - RPMs go high enough?
-Honda Civic
-
-
-## Resources ##
-
-https://www.assettoland.net/
-
-## Questions ##
-
-Is it better to have weight in the back or just less weight?
-
-Power and grip.
-
-Center of gravity.
