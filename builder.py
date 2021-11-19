@@ -95,15 +95,13 @@ if __name__ == '__main__':
 		help='name of source vehicle directory')
 	parser.add_argument('target', type=str, metavar='<name>',
 		help='name of target vehicle directory')
-	#parser.add_argument('name', type=str, metavar='<file>',
-	#	help='path to target vehicle directory')
 	arg = parser.parse_args()
 	
-	# variables
+	# variables for CoG experiments
 	cog  =  [55, 60, 65]
 	bias =  [70, 74, 78]
-	power = [67, 100, 150]
-	grip =  [70, 80, 90, 100]
+	power = [100]
+	grip =  [100]
 	
 	# FWD Miatas
 	for p in power:
@@ -124,9 +122,32 @@ if __name__ == '__main__':
 				quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
 				quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
 				mod_power(f'{name}/data/power.lut', p) # power
-				#break
-			#break
-		#break
+
+	# variables for power and grip experiments
+	cog  =  [60]
+	bias =  [74]
+	power = [100, 150, 200]
+	grip =  [50, 67, 100]
+	
+	# FWD Miatas
+	for p in power:
+		for g in grip:
+			for c, b in zip(cog, bias):
+				name = f'{arg.target}-C{c}-P{p}-G{g}'
+				os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} {name}') # copy directory
+				os.system(f'rm {name}/data.acd') # force to re-pack data
+				desc = f'Experimental FWD Miata with CoG {c}%, Power {p}%, and Grip {g}%'
+				write_ui(f'{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
+				quick_edit(f'{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
+				quick_edit(f'{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
+				quick_edit(f'{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
+				quick_edit(f'{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
+				quick_edit(f'{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
+				quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
+				quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
+				quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
+				quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
+				mod_power(f'{name}/data/power.lut', p) # power
 	
 	# RWD Miatas
 	for p in power:
@@ -139,6 +160,3 @@ if __name__ == '__main__':
 			quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
 			quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
 			mod_power(f'{name}/data/power.lut', p) # power
-			#break
-		#break
-	
