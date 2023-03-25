@@ -3,25 +3,61 @@ acexperiments
 
 Experiments in Assetto Corsa
 
-## Installation ##
+## FRS/BRZ/86 (newer tests) ##
 
-All of the builds are versions of the NA Miata that comes with Assetto Corsa, so you will need a standard installation of Assetto Corsa. You will also need Content Manager, which most Assetto Corsa owners already have because it makes a lot of customization easier.
+Some new ideas for testing Toyota GT86 platform. Assetto Corsa has a base
+model, which will be used for all testing purposes.
 
-## Build 1 ##
++ Power
+	+ Stock
+	+ High
++ Grip
+	+ Stock
+	+ High
++ Aero
+	+ Front
+		+ Stock
+		+ Splitter
+	+ Rear
+		+ Stock
+		+ Spoiler
+		+ Wing
++ Layout
+	+ FR 53:47 (stock)
+	+ MR 47:53
+	+ FF 53:47?
 
-The `build.py` script creates 48 vehicles, totalling about 6 GB.
+## Miatas (older tests) ##
 
-(1) Unpack the `data.acd` file of the `ks_mazda_miata` into a `data` directory using Content Manager.
+All of the builds are versions of the NA Miata that comes with Assetto Corsa,
+so you will need a standard installation of Assetto Corsa. You will also need
+Content Manager, which most Assetto Corsa owners already have because it makes
+a lot of customization easier.
 
-(2) Use something like the command below to build the various experimental vehicles. I did my file wrangling using Cygwin on Windows, which is why the path below is what it is. YMMV.
+The `miatas.py` script creates 48 vehicles, totalling about 6 GB.
 
-	python3 builder.py /cygdrive/c/Program\ Files\ \(x86\)/Steam/steamapps/common/assettocorsa ks_mazda_miata ace
+(1) Unpack the `data.acd` file of the `ks_mazda_miata` into a `data` directory
+using Content Manager.
 
-This will produce a bunch of FWD Miatas and some RWD variants with differing levels of power and grip. 
+(2) Use something like the command below to build the various experimental
+vehicles. I did my file wrangling using Cygwin on Windows, which is why the
+path below is what it is. YMMV.
 
-(3) Copy or move all of the directories you just made to `cars` directory in AC.
+```
+python3 miatas.py /cygdrive/c/Program\ Files\ \(x86\)/Steam/steamapps/common/assettocorsa ks_mazda_miata ace
+```
 
-(4) Go back to Content Manager to pack the `data` directory into a `data.acd` file.
+This will produce a bunch of FWD Miatas and some RWD variants with differing
+levels of power and grip. 
 
-(5) Still in Content Manager, replace the sounds with the original NA Miata (or something else if you prefer).
+(3) Copy or move all of the directories you just made to `cars` directory in
+AC.
+
+(4) Go back to Content Manager to pack the `data` directory into a `data.acd`
+file.
+
+(5) Still in Content Manager, replace the sounds with the original NA Miata (or
+something else if you prefer).
+
+(6) You may want to modify the graphic offsets.
 
