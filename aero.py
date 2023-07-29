@@ -178,7 +178,7 @@ def write_aero(dir, aero):
 def mod_aero(dir, front=0.0, rear=0.0):
 	aero = copy.deepcopy(AEROBASE)
 
-	## front aero section##
+	## front aero section ##
 	aero['aero.ini']['WING_1']['CHORD'] = front
 	aero['aero.ini']['WING_1']['CL_GAIN'] = 1.0
 	aero['aero.ini']['WING_1']['CD_GAIN'] = 1.0
@@ -186,48 +186,36 @@ def mod_aero(dir, front=0.0, rear=0.0):
 	aero['wing_front_AOA_CL.lut'] = {
 		-10	:	0.000,
 		-2	:	0.400,
-		0	:	0.500,
-		2	:	0.510,
-		4	: 	0.520,
-		6	:	0.510,
-		8	:	0.500,
-		10	:	0.500,
+		0	:	0.400,
+		2	:	0.400,
+		10	:	0.000,
 	}
 	aero['wing_front_AOA_CD.lut'] = {
 		-10	:	0.100,
 		-2	:	0.002,
 		0	:	0.000,
 		2	:	0.002,
-		4	:	0.004,
-		6	:	0.006,
-		8	:	0.008,
-		10	:	0.010,
+		10	:	0.100,
 	}
 
 	## rear aero section ##
 	aero['aero.ini']['WING_2']['CHORD'] = rear
 	aero['aero.ini']['WING_2']['CL_GAIN'] = 1.0
 	aero['aero.ini']['WING_2']['CD_GAIN'] = 1.0
-	aero['aero.ini']['WING_2']['ANGLE'] = 4
+	aero['aero.ini']['WING_2']['ANGLE'] = 0
 	aero['wing_rear_AOA_CL.lut'] = {
-		-10	:	-0.055,
+		-10	:	0.000,
 		-2	:	0.300,
-		0	:	0.315,
-		2	:	0.410,
-		4	: 	0.615,
-		6	:	0.645,
-		8	:	0.667,
-		10	:	0.685,
+		0	:	0.500,
+		2	:	0.500,
+		10	:	0.500,
 	}
 	aero['wing_rear_AOA_CD.lut'] = {
-		-10	:	0.200,
-		-2	:	0.020,
-		0	:	0.000, # doubtful
-		2	:	0.030,
-		4	:	0.060,
-		6	:	0.090,
-		8	:	0.120,
-		10	:	0.160,
+		-10	:	0.300,
+		-2	:	0.200,
+		0	:	0.100,
+		2	:	0.200,
+		10	:	0.300,
 	}
 
 	write_aero(dir, aero)
@@ -321,5 +309,3 @@ for d, c, b in layouts:
 					quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
 					mod_power(f'{name}/data/power.lut', p)
 					mod_aero(f'{name}/data', front=f, rear=r)
-
-
