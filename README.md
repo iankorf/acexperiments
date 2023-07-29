@@ -3,31 +3,13 @@ acexperiments
 
 Experiments in Assetto Corsa
 
-## FRS/BRZ/86 (newer tests) ##
+## aero.py (newer experiments) ##
 
-Some new ideas for testing Toyota GT86 platform. Assetto Corsa has a base
-model, which will be used for all testing purposes.
+Similar to the older tests, but with aero modifications as well as CoG and
+drive wheels. Current thoughts are getting reasonable values for front and rear
+aero. Later, the full test.
 
-+ Power
-	+ Stock
-	+ High
-+ Grip
-	+ Stock
-	+ High
-+ Aero
-	+ Front
-		+ Stock
-		+ Splitter
-	+ Rear
-		+ Stock
-		+ Spoiler
-		+ Wing
-+ Layout
-	+ FR 53:47 (stock)
-	+ MR 47:53
-	+ FF 53:47?
-
-## Miatas (older tests) ##
+## miata.py (older experiments) ##
 
 All of the builds are versions of the NA Miata that comes with Assetto Corsa,
 so you will need a standard installation of Assetto Corsa. You will also need
@@ -48,7 +30,7 @@ python3 miatas.py /cygdrive/c/Program\ Files\ \(x86\)/Steam/steamapps/common/ass
 ```
 
 This will produce a bunch of FWD Miatas and some RWD variants with differing
-levels of power and grip. 
+levels of power and grip.
 
 (3) Copy or move all of the directories you just made to `cars` directory in
 AC.
