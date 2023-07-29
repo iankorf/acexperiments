@@ -88,7 +88,7 @@ def quick_edit(file, find, replace):
 
 if __name__ == '__main__':
 
-	parser = argparse.ArgumentParser(description='cloner.py')
+	parser = argparse.ArgumentParser(description='miata.py')
 	parser.add_argument('root', type=str, metavar='<path>',
 		help='assetto corsa root directory')
 	parser.add_argument('source', type=str, metavar='<name>',
@@ -96,13 +96,13 @@ if __name__ == '__main__':
 	parser.add_argument('target', type=str, metavar='<name>',
 		help='name of target vehicle directory')
 	arg = parser.parse_args()
-	
+
 	# variables for CoG experiments
 	cog  =  [55, 60, 65]
 	bias =  [70, 74, 78]
 	power = [100]
 	grip =  [100]
-	
+
 	# FWD Miatas
 	for p in power:
 		for g in grip:
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 	bias =  [74]
 	power = [100, 150, 200]
 	grip =  [50, 67, 100]
-	
+
 	# FWD Miatas
 	for p in power:
 		for g in grip:
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 				quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
 				quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
 				mod_power(f'{name}/data/power.lut', p) # power
-	
+
 	# RWD Miatas
 	for p in power:
 		for g in grip:

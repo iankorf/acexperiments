@@ -161,70 +161,76 @@ AEROBASE = {
 	},
 }
 
-def write_aero(aero):
+def write_aero(dir, aero):
 	for filename in aero:
-		if filename == 'aero.ini':
-			for section in aero[filename]:
-					print(f'[{section}]')
-					for k, v in aero[filename][section].items():
-						print(k, '=', v, sep='')
-					print()
-		else:
-			for deg, val in aero[filename].items():
-				print(deg, '|', val, sep='')
-			print()
+		with open(f'{dir}/{filename}', 'w') as fp:
+			if filename == 'aero.ini':
+				for section in aero[filename]:
+						fp.write(f'[{section}]\n')
+						for k, v in aero[filename][section].items():
+							fp.write(f'{k}={v}\n')
+						fp.write('\n')
+			else:
+				for deg, val in aero[filename].items():
+					fp.write(f'{deg}|{val}\n')
+				fp.write('\n')
 
-def mod_aero_bkr86(front=0.58, rear=0.25):
+def mod_aero(dir, front=0.0, rear=0.0):
 	aero = copy.deepcopy(AEROBASE)
 
+	## front aero section##
 	aero['aero.ini']['WING_1']['CHORD'] = front
-	aero['aero.ini']['WING_1']['CL_GAIN'] = 0.6
-	aero['aero.ini']['WING_1']['CD_GAIN'] = 0.5
+	aero['aero.ini']['WING_1']['CL_GAIN'] = 1.0
+	aero['aero.ini']['WING_1']['CD_GAIN'] = 1.0
+	aero['aero.ini']['WING_1']['ANGLE'] = 0
 	aero['wing_front_AOA_CL.lut'] = {
-		-10	:	-0.050,
+		-10	:	0.000,
 		-2	:	0.400,
-		1	:	0.500,
-		2	:	0.520,
-		4	: 	0.530,
-		5	:	0.530,
-		6	:	0.500,
+		0	:	0.500,
+		2	:	0.510,
+		4	: 	0.520,
+		6	:	0.510,
+		8	:	0.500,
+		10	:	0.500,
 	}
 	aero['wing_front_AOA_CD.lut'] = {
-		-10	:	0.1,
-		-2	:	0.0,
-		0	:	0.00,
-		2	:	0.0025,
-		4	:	0.0050,
-		6	:	0.0075,
-		8	:	0.01,
-		10	:	0.0125,
-		12	:	0.0150,
+		-10	:	0.100,
+		-2	:	0.002,
+		0	:	0.000,
+		2	:	0.002,
+		4	:	0.004,
+		6	:	0.006,
+		8	:	0.008,
+		10	:	0.010,
 	}
 
+	## rear aero section ##
 	aero['aero.ini']['WING_2']['CHORD'] = rear
-	aero['aero.ini']['WING_2']['CL_GAIN'] = 0.7
+	aero['aero.ini']['WING_2']['CL_GAIN'] = 1.0
 	aero['aero.ini']['WING_2']['CD_GAIN'] = 1.0
-	aero['aero.ini']['WING_2']['ANGLE'] = 5
-	aero['wing_front_AOA_CL.lut'] = {
-		-10	:	-0.050,
-		-2	:	0.400,
-		1	:	0.500,
-		2	:	0.520,
-		4	: 	0.530,
-		5	:	0.530,
-		6	:	0.500,
+	aero['aero.ini']['WING_2']['ANGLE'] = 4
+	aero['wing_rear_AOA_CL.lut'] = {
+		-10	:	-0.055,
+		-2	:	0.300,
+		0	:	0.315,
+		2	:	0.410,
+		4	: 	0.615,
+		6	:	0.645,
+		8	:	0.667,
+		10	:	0.685,
 	}
-	aero['wing_front_AOA_CD.lut'] = {
-		-10	:	0.1,
-		-2	:	0.0,
-		0	:	0.00,
-		2	:	0.0025,
-		4	:	0.0050,
-		6	:	0.0075,
-		8	:	0.01,
-		10	:	0.0125,
-		12	:	0.0150,
+	aero['wing_rear_AOA_CD.lut'] = {
+		-10	:	0.200,
+		-2	:	0.020,
+		0	:	0.000, # doubtful
+		2	:	0.030,
+		4	:	0.060,
+		6	:	0.090,
+		8	:	0.120,
+		10	:	0.160,
 	}
+
+	write_aero(dir, aero)
 
 def modify_curve(curve, mod):
 	for i in range(len(curve)):
@@ -275,8 +281,6 @@ parser.add_argument('target', type=str, metavar='<target>',
 	help='name of target vehicle directory')
 arg = parser.parse_args()
 
-write_aero(AEROBASE)
-
 
 layouts = (
 	# drive, cog, bbias
@@ -289,31 +293,33 @@ layouts = (
 )
 
 
-aero = ('base', 'f1')
 power = (100,)
 grip = (100,)
+faero = (0.1,) #(0, 0.1, 0.2, 0.3)
+raero = (0.2,) #(0, 0.1, 0.2, 0.3)
 
 for d, c, b in layouts:
 	for p in power:
 		for g in grip:
-			for a in aero:
-				name = f'{arg.target}-{d}{c}-P{p}-G{g}-{a}'
-				os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} {name}') # copy directory
-				os.system(f'rm {name}/data.acd') # force to re-pack data
-				desc = f'Experimental Miata: {d}WD CoG:{c}% Pow:{p}% Grip:{g}% Aero:{a}'
-				write_ui(f'{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
-				if d == 'F':
-					quick_edit(f'{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
-					quick_edit(f'{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
-					quick_edit(f'{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
-					quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
-					quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
+			for f in faero:
+				for r in raero:
+					name = f'{arg.target}-{d}WD-C{c}-P{p}-G{g}-F{int(f*10)}-R{int(r*10)}'
+					os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} {name}') # copy directory
+					os.system(f'rm {name}/data.acd') # force to re-pack data
+					desc = f'Experimental Miata: {d}WD CoG:{c}% Pow:{p}% Grip:{g}% Front:{int(f*10)} Rear:{int(r*10)}'
+					write_ui(f'{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
+					if d == 'F':
+						quick_edit(f'{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
+						quick_edit(f'{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
+						quick_edit(f'{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
+						quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
+						quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
 
-				quick_edit(f'{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
-				quick_edit(f'{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
-				quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
-				quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
-				mod_power(f'{name}/data/power.lut', p) # power
-				#mod_aero(f'{name}/data', a) # aero package
+					quick_edit(f'{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
+					quick_edit(f'{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
+					quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
+					quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
+					mod_power(f'{name}/data/power.lut', p)
+					mod_aero(f'{name}/data', front=f, rear=r)
 
 
