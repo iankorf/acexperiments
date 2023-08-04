@@ -51,7 +51,7 @@ CAR = {
 AEROBASE = {
 	'aero.ini': {
 		'HEADER': {'VERSION': 2 },
-		'WING_O': {
+		'WING_0': {
 			'NAME': 'BODY', # just the name
 			'CHORD': '1.0', # length in meters
 			'SPAN': '1.62', # width in meters
@@ -262,11 +262,9 @@ def quick_edit(file, find, replace):
 
 parser = argparse.ArgumentParser(description='miata.py')
 parser.add_argument('root', type=str, metavar='<ac root>',
-	help='assetto corsa root directory')
+	help='assetto corsa root directory (or an alias)')
 parser.add_argument('source', type=str, metavar='<source>',
-	help='name of source vehicle directory')
-parser.add_argument('target', type=str, metavar='<target>',
-	help='name of target vehicle directory')
+	help='name of source vehicle directory (e.g. ks_mazda_miata)')
 arg = parser.parse_args()
 
 
@@ -283,29 +281,30 @@ layouts = (
 
 power = (100,)
 grip = (100,)
-faero = (0.1,) #(0, 0.1, 0.2, 0.3)
-raero = (0.2,) #(0, 0.1, 0.2, 0.3)
+faero = (0.0,) #(0, 0.1, 0.2, 0.3)
+raero = (0.0,) #(0, 0.1, 0.2, 0.3)
 
 for d, c, b in layouts:
 	for p in power:
 		for g in grip:
 			for f in faero:
 				for r in raero:
-					name = f'{arg.target}-{d}WD-C{c}-P{p}-G{g}-F{int(f*10)}-R{int(r*10)}'
-					os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} {name}') # copy directory
-					os.system(f'rm {name}/data.acd') # force to re-pack data
+					name = f'ACE-{d}WD-C{c}-P{p}-G{g}-F{int(f*10)}-R{int(r*10)}'
+					os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} build/{name}') # copy directory
+					os.system(f'rm build/{name}/data.acd') # force to re-pack data
 					desc = f'Experimental Miata: {d}WD CoG:{c}% Pow:{p}% Grip:{g}% Front:{int(f*10)} Rear:{int(r*10)}'
-					write_ui(f'{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
+					write_ui(f'build/{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
 					if d == 'F':
-						quick_edit(f'{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
-						quick_edit(f'{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
-						quick_edit(f'{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
-						quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
-						quick_edit(f'{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
+						quick_edit(f'build/{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
+						quick_edit(f'build/{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
+						quick_edit(f'build/{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
+						quick_edit(f'build/{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
+						quick_edit(f'build/{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
 
-					quick_edit(f'{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
-					quick_edit(f'{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
-					quick_edit(f'{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
-					quick_edit(f'{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
-					mod_power(f'{name}/data/power.lut', p)
-					mod_aero(f'{name}/data', front=f, rear=r)
+					quick_edit(f'build/{name}/data/car.ini', 'SCREEN_NAME=Mazda MX5 NA', f'SCREEN_NAME={name}') # screen name
+					quick_edit(f'build/{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
+					quick_edit(f'build/{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
+					quick_edit(f'build/{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
+					quick_edit(f'build/{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
+					mod_power(f'build/{name}/data/power.lut', p)
+					mod_aero(f'build/{name}/data', front=f, rear=r)

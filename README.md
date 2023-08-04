@@ -9,6 +9,13 @@ Similar to the older tests, but with aero modifications as well as CoG and
 drive wheels. Current thoughts are getting reasonable values for front and rear
 aero. Later, the full test.
 
+```
+mkdir build
+python3 aero.py assettocorsa ks_mazda_miata
+```
+
+You will have to "Pack data" later in Content Manger.
+
 ## miata.py (older experiments) ##
 
 All of the builds are versions of the NA Miata that comes with Assetto Corsa,
