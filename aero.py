@@ -80,7 +80,7 @@ AEROBASE = {
 			'LUT_AOA_CL': 'wing_front_AOA_CL.lut',
 			'LUT_GH_CL': '',
 			'CL_GAIN': 1.0, # used here, but not in body
-			'LUT_AOA_CD': 'wing_front_AOA_CL.lut',
+			'LUT_AOA_CD': 'wing_front_AOA_CD.lut',
 			'LUT_GH_CD': '',
 			'CD_GAIN': 0,
 			'ANGLE': 0,
@@ -271,18 +271,18 @@ arg = parser.parse_args()
 layouts = (
 	# drive, cog, bbias
 #	('F', 55, 70),
-#	('F', 60, 74),
+	('F', 60, 74),
 #	('F', 65, 78),
 #	('R', 45, 64),
-	('R', 50, 67),
+#	('R', 50, 67),
 #	('R', 55, 70),
 )
 
 
 power = (100,)
 grip = (100,)
-faero = (0.0,) #(0, 0.1, 0.2, 0.3)
-raero = (0.0,) #(0, 0.1, 0.2, 0.3)
+faero = (0, 0.1, 0.2, 0.3)
+raero = (0, 0.1, 0.2, 0.3)
 
 for d, c, b in layouts:
 	for p in power:
