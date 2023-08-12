@@ -16,6 +16,21 @@ python3 aero.py assettocorsa ks_mazda_miata
 
 You will have to "Pack data" later in Content Manger.
 
+----
+
+informal
+
+RWD 50 F0 R0 1:03.0 normal
+RWD 50 F0 R3 1:02.3 some understeer paddock, locked down esses
+RWD 50 F3 R0 1:02.5 some oversteer in paddock
+RWD 50 F3 R3 1:02.4 seemed more locked down in esses than vanilla
+FWD 60 F0 R0 1:02.7 I could drive better
+FWD 60 F0 R3 1:02.6 hard to drive, so much understeer
+FWD 60 F3 R0 1:02.9 hard to drive, fun, must be discliplined T1
+FWD 60 F3 R3 1:02.2 easy peasy
+FWD 60 F0 R3 1:02.8 40psi rear, very fun
+add weight to aero components
+
 ## miata.py (older experiments) ##
 
 All of the builds are versions of the NA Miata that comes with Assetto Corsa,
