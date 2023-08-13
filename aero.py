@@ -239,7 +239,7 @@ def mod_power(file, mod):
 		for line in lines:
 			fp.write(line)
 
-def write_ui(file, name, desc, power, grip):
+def write_ui(file, name, desc, power):
 	car = copy.deepcopy(CAR)
 	car['name'] = name
 	car['description'] = desc
@@ -248,7 +248,7 @@ def write_ui(file, name, desc, power, grip):
 	with open(file, 'w') as fp:
 		fp.write(json.dumps(car, indent=4))
 
-def quick_edit(file, find, replace):
+def change(file, find, replace):
 	lines = []
 	with open(file) as fp:
 		for line in fp.readlines():
@@ -270,42 +270,51 @@ arg = parser.parse_args()
 
 layouts = (
 	# drive, cog, bbias
-#	('F', 55, 70),
-	('F', 60, 74),
-#	('F', 65, 78),
-	('R', 45, 64),
-	('R', 50, 67),
-#	('R', 55, 70),
+	('FF', 63, 76),
+	('MR', 45, 64),
+	('FR', 52, 68), 
 )
 
+aeros = {
+	('Naked', 0, 0),
+	('Split', 3, 0),
+	('Wing',  0, 3),
+	('Full',  3, 3),
+}
 
-power = (100,)
-grip = (100,)
-faero = (0, 0.3)
-raero = (0, 0.3)
+power = 125
 
-for d, c, b in layouts:
-	for p in power:
-		for g in grip:
-			for f in faero:
-				for r in raero:
-					name = f'ACE-{d}WD-C{c}-P{p}-G{g}-F{int(f*10)}-R{int(r*10)}'
-					os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} build/{name}') # copy directory
-					os.system(f'rm build/{name}/data.acd') # force to re-pack data
-					desc = f'Experimental Miata: {d}WD CoG:{c}% Pow:{p}% Grip:{g}% Front:{int(f*10)} Rear:{int(r*10)}'
-					write_ui(f'build/{name}/ui/ui_car.json', name, desc, p, g); # write ui_car.json
-					if d == 'F':
-						quick_edit(f'build/{name}/data/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD') # RWD -> FWD
-						quick_edit(f'build/{name}/data/suspensions.ini', 'FRONT=9502', 'FRONT=4260') # ARB swap
-						quick_edit(f'build/{name}/data/suspensions.ini', 'REAR=4259', 'REAR=9500') # ARB swap
-						quick_edit(f'build/{name}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43') # track width swap
-						quick_edit(f'build/{name}/data/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41') # track width swap
+for layout, c, b in layouts:
+	for aero, f, r in aeros:
+		name = f'ACE-{layout}-{aero}'
+		d = f'build/{name}/data'
+		os.system(f'cp -r "{arg.root}"/content/cars/{arg.source} build/{name}')
+		os.system(f'rm build/{name}/data.acd')
+		
+		# descriptions
+		desc = f'Experimental: {name} {aero}'
+		write_ui(f'build/{name}/ui/ui_car.json', name, desc, power)
+		swap(f'{d}/car.ini', 'SCREEN_NAME=Mazda MX5 NA', f'SCREEN_NAME={name}')
+		
+		# FWD modifications
+		if layout == 'FF': # swap a few things front-rear
+			swap(f'{d}/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD')
+			swap(f'{d}/suspensions.ini', 'FRONT=9502', 'FRONT=4260')
+			swap(f'{d}/suspensions.ini', 'REAR=4259', 'REAR=9500')
+			swap(f'{d}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43')
+			swap(f'{d}/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41')
 
-					quick_edit(f'build/{name}/data/car.ini', 'SCREEN_NAME=Mazda MX5 NA', f'SCREEN_NAME={name}') # screen name
-					quick_edit(f'build/{name}/data/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}') # CoG
-					quick_edit(f'build/{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
-					quick_edit(f'build/{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
-					quick_edit(f'build/{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
-					quick_edit(f'build/{name}/data/car.ini', 'TOTALMASS=1080', f'TOTALMASS={int(1080 + f*20 + r*10)}') # weight of aero
-					mod_power(f'build/{name}/data/power.lut', p)
-					mod_aero(f'build/{name}/data', front=f, rear=r)
+		# power is increased
+		mod_power(f'{d}/power.lut', power)
+
+		# layout dictates center of gravity and brake bias
+		swap(f'{d}/suspensions.ini', 'CG_LOCATION=0.515', f'CG_LOCATION={c/100}')
+		swap(f'{d}/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}')
+		
+		# tires are custom (more difference in lat and lon grip, more sticky)
+		swap(f'{d}/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.3 * g / 100}')
+		swap(f'{d}/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.2 * g / 100}')
+		
+		# aero: front aero weighs more but has less drag
+		swap(f'{d}/car.ini', 'TOTALMASS=1080', f'TOTALMASS={int(1080 + f*20 + r*10)}')
+		mod_aero(d, front=f, rear=r)
