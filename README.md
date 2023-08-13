@@ -17,6 +17,10 @@ how does aero interact with layout?
 
 ### Aero Packages
 
+Front aero has near 0 CD and CL around 0.4. Rear aero has 0.1 CD and 0.5 CL.
+Front aero weighs 20 kg per meter of chord, while rear is half that. For
+testing purposes, front was set to 0.3m and rear 0.3m.
+
 + Naked - no splitter or wing
 + Split - splitter only
 + Wing - wing only
