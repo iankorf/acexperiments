@@ -273,16 +273,16 @@ layouts = (
 #	('F', 55, 70),
 	('F', 60, 74),
 #	('F', 65, 78),
-#	('R', 45, 64),
-#	('R', 50, 67),
+	('R', 45, 64),
+	('R', 50, 67),
 #	('R', 55, 70),
 )
 
 
 power = (100,)
 grip = (100,)
-faero = (0, 0.1, 0.2, 0.3)
-raero = (0, 0.1, 0.2, 0.3)
+faero = (0, 0.3)
+raero = (0, 0.3)
 
 for d, c, b in layouts:
 	for p in power:
@@ -306,5 +306,6 @@ for d, c, b in layouts:
 					quick_edit(f'build/{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}') # brake bias
 					quick_edit(f'build/{name}/data/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.22 * g / 100}') # grip
 					quick_edit(f'build/{name}/data/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.21 * g / 100}') # grip
+					quick_edit(f'build/{name}/data/car.ini', 'TOTALMASS=1080', f'TOTALMASS={int(1080 + f*20 + r*10)}') # weight of aero
 					mod_power(f'build/{name}/data/power.lut', p)
 					mod_aero(f'build/{name}/data', front=f, rear=r)
