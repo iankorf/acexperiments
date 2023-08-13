@@ -248,7 +248,7 @@ def write_ui(file, name, desc, power):
 	with open(file, 'w') as fp:
 		fp.write(json.dumps(car, indent=4))
 
-def change(file, find, replace):
+def swap(file, find, replace):
 	lines = []
 	with open(file) as fp:
 		for line in fp.readlines():
@@ -301,7 +301,7 @@ for layout, c, b in layouts:
 			swap(f'{d}/drivetrain.ini', 'TYPE=RWD', 'TYPE=FWD')
 			swap(f'{d}/suspensions.ini', 'FRONT=9502', 'FRONT=4260')
 			swap(f'{d}/suspensions.ini', 'REAR=4259', 'REAR=9500')
-			swap(f'{d}/data/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43')
+			swap(f'{d}/suspensions.ini', 'TRACK=1.410', 'TRACK=1.43')
 			swap(f'{d}/suspensions.ini', 'TRACK=1.427', 'TRACK=1.41')
 
 		# power is increased
@@ -312,9 +312,9 @@ for layout, c, b in layouts:
 		swap(f'{d}/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE={b/100}')
 		
 		# tires are custom (more difference in lat and lon grip, more sticky)
-		swap(f'{d}/tyres.ini', 'DX_REF=1.22', f'DX_REF={1.3 * g / 100}')
-		swap(f'{d}/tyres.ini', 'DY_REF=1.21', f'DY_REF={1.2 * g / 100}')
+		swap(f'{d}/tyres.ini', 'DX_REF=1.22', f'DX_REF=1.3')
+		swap(f'{d}/tyres.ini', 'DY_REF=1.21', f'DY_REF=1.2')
 		
-		# aero: front aero weighs more but has less drag
-		swap(f'{d}/car.ini', 'TOTALMASS=1080', f'TOTALMASS={int(1080 + f*20 + r*10)}')
+		# aero & weight
+		swap(f'{d}/car.ini', 'TOTALMASS=1080', f'TOTALMASS={int(1030 + f*20 + r*10)}')
 		mod_aero(d, front=f, rear=r)

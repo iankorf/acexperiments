@@ -3,35 +3,49 @@ acexperiments
 
 Experiments in Assetto Corsa
 
-## aero.py (newer experiments) ##
+## aero.py (2023 Summer) ##
 
-Similar to the older tests, but with aero modifications as well as CoG and
-drive wheels. Current thoughts are getting reasonable values for front and rear
-aero. Later, the full test.
+The theme here is making a time attack Miata or Miata-equivalent with FF and
+MR layouts. What is the difference in layout? How does aero improve speed and
+how does aero interact with layout?
+
+### Layouts
+
++ FF 63% - typical FF distribution and what "the FWD book" recommends
++ FR 52% - it's easier to remove weight from the rear in a Miata
++ MR 45% - just a guess at a MR CoG
+
+### Aero Packages
+
++ Naked - no splitter or wing
++ Split - splitter only
++ Wing - wing only
++ Full - splitter and wing
+
+### Power, Grip, Weight
+
+Power is increased by 25% over stock. It's generally easy to unlock a bit of
+extra power with bolt-ons.
+
+The tires are meant to be more like a 200TW than the defaults. The stock values
+of SV tires are 1.22 and 1.21. The ST are slightly higher. I think there's even
+more difference in lateral and longitudinal grip than AC uses. I therefore went
+with values of 1.3 and 1.2 for the DX and DY.
+
+It's easy to remove weight from a vehicle, so the mass was reduced 50 kg from
+1080 to 1030. Since more weight is generally removed from the rear than the
+front, the CoG of the FF is a little forward (52). Front aero weighs more than
+rear aero.
 
 ```
 mkdir build
 python3 aero.py assettocorsa ks_mazda_miata
 ```
 
-You will have to "Pack data" later in Content Manger.
+You will have to fix sounds and "Pack data" later in Content Manger.
 
-----
 
-informal
-
-RWD 50 F0 R0 1:03.0 normal
-RWD 50 F0 R3 1:02.3 some understeer paddock, locked down esses
-RWD 50 F3 R0 1:02.5 some oversteer in paddock
-RWD 50 F3 R3 1:02.4 seemed more locked down in esses than vanilla
-FWD 60 F0 R0 1:02.7 I could drive better
-FWD 60 F0 R3 1:02.6 hard to drive, so much understeer
-FWD 60 F3 R0 1:02.9 hard to drive, fun, must be discliplined T1
-FWD 60 F3 R3 1:02.2 easy peasy
-FWD 60 F0 R3 1:02.8 40psi rear, very fun
-add weight to aero components
-
-## miata.py (older experiments) ##
+## miata.py (2021 Fall) ##
 
 All of the builds are versions of the NA Miata that comes with Assetto Corsa,
 so you will need a standard installation of Assetto Corsa. You will also need
