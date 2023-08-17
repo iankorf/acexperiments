@@ -1,0 +1,67 @@
+AERO
+====
+
+- go back to stock power, weight, grip
+FR+5 - 47.5/53.5, adding 5 points to the rear
+FR2X - 33/67 2x rear
+FR3X - 25/75 3x rear
+
+FF+5 - 58/42 adding 5 points to the rear
+
+FF2x - 33/67 2x rear
+FF3x - 25/75 3x rear
+FF4x - 20/80 4x rear
+
+------
+
+
+
+There are two ways to do aero
+
+1. ks method - use 1.0 chord, and tune CoD and CoL
+2. real data - use actual chord & span, actual CoD and CoL
+
+## Beavis Motorsport Turbo Miata ##
+
+        Chord  Span Angle CoD   CoL
+window   0.8   1.55  40  0.42 -0.15
+Front    0.25  1.85   3  0.04  1.2
+Rear     0.32  1.80  10  0.38  1.45
+
+## Alfa 155 ##
+
+        Chord  Span Angle CoD   CoL
+BODY     1.0   2.18  1    0.321 0.0
+FRONT    1.0   2.18  2    0.002 0.09
+REAR     1.0   2.18  3    0.049 0.095
+
+## BMW M3 GT2 ##
+
+        Chord  Span Angle CoD   CoL
+BODY     1.0   2.28   1   0.367 0.015
+FRONT    1.0   2.28   2   0.003 0.496
+REAR     1.0   2.28   6   0.084 0.576
+
+## Ferrari 599 ##
+
+        Chord  Span Angle CoD   CoL
+BODY     1.0  2.238   0   0.32  0.87
+FRONT    1.0  2.238   2   0.0   0.2
+REAR     1.0  2.238   0   0.01  0.095
+
+## GR86 Time Attack ##
+
+        Chord  Span Angle CoD   CoL
+BODY     4.2   1.75  0    0.12  0.04
+FRONT_DI 0.58  1.70  0    0.0   0.5 ?
+REAR_WIN 0.25  1.5   5    0.045 0.63
+
+## GT86 ##
+
+        Chord  Span Angle CoD   CoL
+BODY     1.0   1.96   1   0.281  0.0
+FRONT    1.0   1.96   1   0.002 -0.025
+REAR     1.0   1.96   1   0.01  -0.018
+
+## Miata ##
+
