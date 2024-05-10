@@ -139,19 +139,18 @@ if __name__ == '__main__':
 	quick_edit(f'{name}/data/brakes.ini', 'FRONT_SHARE=0.67', f'FRONT_SHARE=0.74') # brake bias
 	mod_power(f'{name}/data/power.lut', p) # power
 
-	awd = [
-		'[AWD'], # from Audi S1
-		'FRONT_SHARE=98',
-		'FRONT_DIFF_POWER=0.06',
-		'FRONT_DIFF_COAST=0.02',
-		'FRONT_DIFF_PRELOAD=0',
-		'CENTRE_DIFF_POWER=0.03',
-		'CENTRE_DIFF_COAST=0.03',
-		'CENTRE_DIFF_PRELOAD=1',
-		'REAR_DIFF_POWER=0.03',
-		'REAR_DIFF_COAST=0.03',
-		'REAR_DIFF_PRELOAD=0',
-	]
+	awd = [\
+		'[AWD]',\
+		'FRONT_SHARE=98',\
+		'FRONT_DIFF_POWER=0.06',\
+		'FRONT_DIFF_COAST=0.02',\
+		'FRONT_DIFF_PRELOAD=0',\
+		'CENTRE_DIFF_POWER=0.03',\
+		'CENTRE_DIFF_COAST=0.03',\
+		'CENTRE_DIFF_PRELOAD=1',\
+		'REAR_DIFF_POWER=0.03',\
+		'REAR_DIFF_COAST=0.03',\
+		'REAR_DIFF_PRELOAD=0']
 	contents = []
 	with open(f'{name}/data/drivetrain.ini') as fp:
 		for line in fp: contents.append(line)
