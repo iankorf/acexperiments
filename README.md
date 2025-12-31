@@ -3,6 +3,17 @@ acexperiments
 
 Experiments in Assetto Corsa
 
+## pwr.py (2026 Winter) ##
+
+Power to weight ratio attempted. But one really needs to make suspension
+changes as the weight goes up. Probably tire width as well. This one is harder
+to do than others.
+
+```
+python3 pwr.py assettocorsa ks_mazda_miata build
+```
+
+
 ## aero.py (2023 Summer) ##
 
 The theme here is making a time attack Miata or Miata-equivalent with FF and
